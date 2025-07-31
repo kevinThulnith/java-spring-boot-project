@@ -20,7 +20,6 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Item code is required")
     @Column(name = "item_code", unique = true)
     private String itemCode;
 

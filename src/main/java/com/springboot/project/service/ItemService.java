@@ -2,6 +2,8 @@ package com.springboot.project.service;
 
 import com.springboot.project.repository.ItemRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import com.springboot.project.entity.Item;
 import lombok.RequiredArgsConstructor;
 import java.math.BigDecimal;
@@ -20,6 +22,14 @@ public class ItemService {
     
     public List<Item> findAllItems() {
         return itemRepository.findAll();
+    }
+    
+    public Page<Item> findAllItems(Pageable pageable) {
+        return itemRepository.findAll(pageable);
+    }
+    
+    public Page<Item> searchItems(String keyword, Pageable pageable) {
+        return itemRepository.searchByKeyword(keyword, pageable);
     }
     
     public Optional<Item> findItemById(Long id) {
@@ -44,6 +54,10 @@ public class ItemService {
     
     public List<Item> searchByName(String name) {
         return itemRepository.findByNameContainingIgnoreCase(name);
+    }
+    
+    public List<Item> searchByKeyword(String keyword) {
+        return itemRepository.searchByKeyword(keyword);
     }
     
     public List<Item> findLowStockItems(Integer threshold) {

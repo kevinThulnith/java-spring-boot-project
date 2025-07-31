@@ -1,20 +1,19 @@
 package com.springboot.project.controller;
 
-import com.springboot.project.entity.Customer;
-import com.springboot.project.service.CustomerService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.validation.BindingResult;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import java.security.Principal;
+import com.springboot.project.service.CustomerService;
+import org.springframework.validation.BindingResult;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+import com.springboot.project.entity.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 

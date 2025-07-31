@@ -1,10 +1,10 @@
 package com.springboot.project.service;
 
 import com.springboot.project.repository.CustomerRepository;
+import org.springframework.data.domain.Pageable;
 import com.springboot.project.entity.Customer;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;

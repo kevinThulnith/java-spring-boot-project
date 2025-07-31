@@ -19,7 +19,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Account number is required")
     @Column(unique = true, name = "account_number")
     private String accountNumber;
 

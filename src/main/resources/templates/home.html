@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" class="h-full">
+<html xmlns:th="http://www.thymeleaf.org" class="h-full" lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Home</title>
@@ -59,8 +59,22 @@
     >
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <div class="flex items-center">
-            <h1 class="text-xl font-bold text-white">My App</h1>
+          <div class="flex items-center space-x-8">
+            <h1 class="text-xl font-bold text-white">Pahana Edu</h1>
+            <div class="flex space-x-4">
+              <a
+                href="/home"
+                class="bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Dashboard
+              </a>
+              <a
+                href="/customers"
+                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+              >
+                Customers
+              </a>
+            </div>
           </div>
           <div class="flex items-center space-x-4">
             <!-- Theme Toggle Button -->
@@ -135,7 +149,41 @@
         </div>
 
         <!-- Feature Cards -->
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-4 gap-6">
+          <!-- Customer Statistics Card -->
+          <div
+            class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-200 dark:border-gray-700"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <div
+                  class="text-2xl font-bold text-gray-900 dark:text-white"
+                  th:text="${totalCustomers ?: 0}"
+                >
+                  0
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  Total Customers
+                </div>
+              </div>
+              <div class="text-blue-500 dark:text-blue-400">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-4">
+              <a
+                href="/customers"
+                class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm font-medium"
+              >
+                Manage Customers →
+              </a>
+            </div>
+          </div>
+
           <div
             class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition duration-200 border border-gray-200 dark:border-gray-700"
           >

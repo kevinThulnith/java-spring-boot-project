@@ -3,6 +3,8 @@ package com.springboot.project.service;
 import com.springboot.project.repository.CustomerRepository;
 import com.springboot.project.entity.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,14 @@ public class CustomerService {
     
     public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
+    }
+    
+    public Page<Customer> findAllCustomers(Pageable pageable) {
+        return customerRepository.findAll(pageable);
+    }
+    
+    public Page<Customer> searchCustomers(String keyword, Pageable pageable) {
+        return customerRepository.searchByKeyword(keyword, pageable);
     }
     
     public Optional<Customer> findCustomerById(Long id) {

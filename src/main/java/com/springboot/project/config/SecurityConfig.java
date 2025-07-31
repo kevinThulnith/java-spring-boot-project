@@ -28,6 +28,7 @@ public class SecurityConfig {
             .userDetailsService(userDetailsService)
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/", "/login", "/signup", "/css/**", "/js/**", "/h2-console/**").permitAll()
+                .requestMatchers("/customers/**").authenticated()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

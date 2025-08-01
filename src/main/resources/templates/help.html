@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" class="h-full" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Help - System Usage Guidelines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              poppins: ["Poppins", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script>
+      // Theme toggle functionality
+      function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.classList.contains("dark");
+
+        if (isDark) {
+          html.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        } else {
+          html.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        }
+      }
+
+      // Initialize theme on page load
+      (function () {
+        const savedTheme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+
+      // Toggle FAQ sections
+      function toggleFAQ(id) {
+        const element = document.getElementById(id);
+        const icon = document.getElementById(id + "-icon");
+
+        if (element.classList.contains("hidden")) {
+          element.classList.remove("hidden");
+          icon.style.transform = "rotate(180deg)";
+        } else {
+          element.classList.add("hidden");
+          icon.style.transform = "rotate(0deg)";
+        }
+      }
+
+      // Search functionality
+      function searchHelp() {
+        const searchTerm = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const sections = document.querySelectorAll(".help-section");
+
+        sections.forEach((section) => {
+          const text = section.textContent.toLowerCase();
+          if (text.includes(searchTerm) || searchTerm === "") {
+            section.style.display = "block";
+          } else {
+            section.style.display = "none";
+          }
+        });
+      }
+    </script>
+  </head>
+  <body
+    class="font-poppins bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 min-h-full"
+  >
+    <!-- Navigation Bar -->
+    <nav
+      class="bg-gray-800 dark:bg-gray-900 shadow-lg border-b border-gray-200 dark:border-gray-700"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-8">
+            <h1 class="text-xl font-bold text-white">Pahana Edu</h1>
+            <div class="flex space-x-4">
+              <a
+                href="/home"
+                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+              >
+                Dashboard
+              </a>
+              <a
+                href="/customers"
+                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+              >
+                Customers
+              </a>
+              <a
+                href="/items"
+                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+              >
+                Items
+              </a>
+              <a
+                href="/bills"
+                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-200"
+              >
+                Bills
+              </a>
+              <a
+                href="/help"
+                class="bg-blue-600 text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Help
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <!-- Theme Toggle Button -->
+            <button
+              onclick="toggleTheme()"
+              class="p-2 rounded-lg text-gray-400 hover:text-white transition-colors duration-200"
+              aria-label="Toggle theme"
+            >
+              <svg
+                class="w-5 h-5 dark:hidden"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                ></path>
+              </svg>
+              <svg
+                class="w-5 h-5 hidden dark:block"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <span class="text-gray-300 dark:text-gray-400">
+              Welcome,
+              <span
+                th:text="${username}"
+                class="font-semibold text-white"
+              ></span
+              >!
+            </span>
+            <form th:action="@{/logout}" method="post" class="inline">
+              <button
+                type="submit"
+                class="bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-gray-800"
+              >
+                Logout
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      <!-- Header Section -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          📚 System Usage Guidelines
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          Welcome to Pahana Edu! This comprehensive guide will help you navigate
+          and make the most of our system.
+        </p>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="mb-8">
+        <div class="max-w-md mx-auto">
+          <div class="relative">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search help topics..."
+              onkeyup="searchHelp()"
+              class="w-full px-4 py-2 pl-10 pr-4 text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            />
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Navigation -->
+      <div class="mb-12">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700"
+        >
+          <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+            🚀 Quick Navigation
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a
+              href="#getting-started"
+              class="bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 p-4 rounded-lg transition-colors duration-200"
+            >
+              <div class="text-blue-600 dark:text-blue-400 font-semibold">
+                Getting Started
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                Basic overview and first steps
+              </div>
+            </a>
+            <a
+              href="#dashboard"
+              class="bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 p-4 rounded-lg transition-colors duration-200"
+            >
+              <div class="text-green-600 dark:text-green-400 font-semibold">
+                Dashboard
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                Understanding your dashboard
+              </div>
+            </a>
+            <a
+              href="#management"
+              class="bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 p-4 rounded-lg transition-colors duration-200"
+            >
+              <div class="text-purple-600 dark:text-purple-400 font-semibold">
+                Management
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                Managing customers, items & bills
+              </div>
+            </a>
+            <a
+              href="#troubleshooting"
+              class="bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 p-4 rounded-lg transition-colors duration-200"
+            >
+              <div class="text-orange-600 dark:text-orange-400 font-semibold">
+                Troubleshooting
+              </div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">
+                Common issues and solutions
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Getting Started Section -->
+      <div id="getting-started" class="help-section mb-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700"
+        >
+          <h2
+            class="text-3xl font-bold mb-6 text-gray-900 dark:text-white flex items-center"
+          >
+            🏁 Getting Started
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+              <h3
+                class="text-xl font-semibold mb-3 text-blue-900 dark:text-blue-100"
+              >
+                Welcome to Pahana Edu!
+              </h3>
+              <p class="text-gray-700 dark:text-gray-300 mb-4">
+                Pahana Edu is a comprehensive business management system
+                designed to help you manage customers, inventory, and billing
+                efficiently.
+              </p>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div
+                  class="text-center p-4 bg-white dark:bg-gray-700 rounded-lg"
+                >
+                  <div class="text-2xl mb-2">👥</div>
+                  <div class="font-semibold text-gray-900 dark:text-white">
+                    Customer Management
+                  </div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Track and manage your customers
+                  </div>
+                </div>
+                <div
+                  class="text-center p-4 bg-white dark:bg-gray-700 rounded-lg"
+                >
+                  <div class="text-2xl mb-2">📦</div>
+                  <div class="font-semibold text-gray-900 dark:text-white">
+                    Inventory Control
+                  </div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Manage items and stock levels
+                  </div>
+                </div>
+                <div
+                  class="text-center p-4 bg-white dark:bg-gray-700 rounded-lg"
+                >
+                  <div class="text-2xl mb-2">🧾</div>
+                  <div class="font-semibold text-gray-900 dark:text-white">
+                    Billing System
+                  </div>
+                  <div class="text-sm text-gray-600 dark:text-gray-400">
+                    Create and manage bills
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3
+                class="text-xl font-semibold mb-3 text-gray-900 dark:text-white"
+              >
+                First Steps
+              </h3>
+              <ol
+                class="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300"
+              >
+                <li>
+                  <strong>Login:</strong> Use your credentials to access the
+                  system securely
+                </li>
+                <li>
+                  <strong>Dashboard:</strong> Get an overview of your business
+                  metrics
+                </li>
+                <li>
+                  <strong>Add Customers:</strong> Start by adding your customer
+                  information
+                </li>
+                <li>
+                  <strong>Manage Items:</strong> Add products/services to your
+                  inventory
+                </li>
+                <li>
+                  <strong>Create Bills:</strong> Generate bills for your
+                  customers
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Section -->
+      <div id="dashboard" class="help-section mb-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700"
+        >
+          <h2
+            class="text-3xl font-bold mb-6 text-gray-900 dark:text-white flex items-center"
+          >
+            📊 Dashboard Overview
+          </h2>
+
+          <div class="space-y-6">
+            <p class="text-gray-700 dark:text-gray-300">
+              Your dashboard provides a comprehensive overview of your business
+              performance with real-time statistics and quick access to
+              important functions.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <h3
+                  class="text-lg font-semibold mb-3 text-gray-900 dark:text-white"
+                >
+                  Statistics Cards
+                </h3>
+                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                  <li>
+                    <strong>Total Customers:</strong> Shows your customer count
+                  </li>
+                  <li>
+                    <strong>Total Items:</strong> Displays inventory count
+                  </li>
+                  <li>
+                    <strong>Active Items:</strong> Items currently available
+                  </li>
+                  <li>
+                    <strong>Low Stock Items:</strong> Items needing restocking
+                  </li>
+                  <li><strong>Bills:</strong> Total, paid, and draft bills</li>
+                </ul>
+              </div>
+
+              <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-lg">
+                <h3
+                  class="text-lg font-semibold mb-3 text-gray-900 dark:text-white"
+                >
+                  Navigation Features
+                </h3>
+                <ul class="space-y-2 text-gray-700 dark:text-gray-300">
+                  <li>
+                    <strong>Theme Toggle:</strong> Switch between light/dark
+                    modes
+                  </li>
+                  <li>
+                    <strong>User Welcome:</strong> Shows current logged-in user
+                  </li>
+                  <li>
+                    <strong>Quick Links:</strong> Access all main sections
+                    easily
+                  </li>
+                  <li><strong>Logout:</strong> Secure session termination</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Management Section -->
+      <div id="management" class="help-section mb-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700"
+        >
+          <h2
+            class="text-3xl font-bold mb-6 text-gray-900 dark:text-white flex items-center"
+          >
+            ⚙️ Management Features
+          </h2>
+
+          <div class="space-y-8">
+            <!-- Customer Management -->
+            <div class="border-l-4 border-blue-500 pl-6">
+              <h3
+                class="text-2xl font-semibold mb-4 text-blue-600 dark:text-blue-400"
+              >
+                👥 Customer Management
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">
+                    Adding Customers:
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1"
+                  >
+                    <li>Click "Add New Customer" button</li>
+                    <li>
+                      Fill in customer details (name, email, phone, address)
+                    </li>
+                    <li>Save to add to your customer database</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">
+                    Managing Customers:
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1"
+                  >
+                    <li>View all customers in a searchable table</li>
+                    <li>Edit customer information as needed</li>
+                    <li>Delete customers who are no longer active</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item Management -->
+            <div class="border-l-4 border-green-500 pl-6">
+              <h3
+                class="text-2xl font-semibold mb-4 text-green-600 dark:text-green-400"
+              >
+                📦 Item Management
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">
+                    Adding Items:
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1"
+                  >
+                    <li>Navigate to Items section</li>
+                    <li>Click "Add New Item"</li>
+                    <li>
+                      Enter item details (name, description, price, stock)
+                    </li>
+                    <li>Set item status (ACTIVE/INACTIVE)</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">
+                    Stock Management:
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1"
+                  >
+                    <li>Monitor stock levels from dashboard</li>
+                    <li>Update quantities as needed</li>
+                    <li>Get alerts for low stock items</li>
+                    <li>Activate/deactivate items as needed</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bill Management -->
+            <div class="border-l-4 border-purple-500 pl-6">
+              <h3
+                class="text-2xl font-semibold mb-4 text-purple-600 dark:text-purple-400"
+              >
+                🧾 Bill Management
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">
+                    Creating Bills:
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1"
+                  >
+                    <li>Select customer from dropdown</li>
+                    <li>Add items to the bill</li>
+                    <li>System automatically calculates totals</li>
+                    <li>Save as draft or mark as paid</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-2 text-gray-900 dark:text-white">
+                    Bill Status:
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1"
+                  >
+                    <li>
+                      <span class="text-yellow-600 dark:text-yellow-400"
+                        >DRAFT:</span
+                      >
+                      Pending completion
+                    </li>
+                    <li>
+                      <span class="text-green-600 dark:text-green-400"
+                        >PAID:</span
+                      >
+                      Payment received
+                    </li>
+                    <li>Edit bills before marking as paid</li>
+                    <li>View bill history and details</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="help-section mb-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700"
+        >
+          <h2
+            class="text-3xl font-bold mb-6 text-gray-900 dark:text-white flex items-center"
+          >
+            ❓ Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-4">
+            <!-- FAQ Item 1 -->
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg">
+              <button
+                onclick="toggleFAQ('faq1')"
+                class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-gray-900 dark:text-white"
+                    >How do I reset my password?</span
+                  >
+                  <svg
+                    id="faq1-icon"
+                    class="w-5 h-5 text-gray-500 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq1"
+                class="hidden p-4 pt-0 text-gray-700 dark:text-gray-300"
+              >
+                Contact your system administrator to reset your password. For
+                security reasons, password resets must be handled through
+                official channels.
+              </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg">
+              <button
+                onclick="toggleFAQ('faq2')"
+                class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-gray-900 dark:text-white"
+                    >Can I delete a bill after it's been created?</span
+                  >
+                  <svg
+                    id="faq2-icon"
+                    class="w-5 h-5 text-gray-500 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq2"
+                class="hidden p-4 pt-0 text-gray-700 dark:text-gray-300"
+              >
+                Yes, you can delete bills that are in DRAFT status. However,
+                bills marked as PAID cannot be deleted for audit purposes. You
+                can edit draft bills before finalizing them.
+              </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg">
+              <button
+                onclick="toggleFAQ('faq3')"
+                class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-gray-900 dark:text-white"
+                    >How do I add multiple items to a bill at once?</span
+                  >
+                  <svg
+                    id="faq3-icon"
+                    class="w-5 h-5 text-gray-500 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq3"
+                class="hidden p-4 pt-0 text-gray-700 dark:text-gray-300"
+              >
+                In the bill creation form, use the "Add Item" button to add
+                multiple line items. Each item can have different quantities,
+                and the system will calculate the total automatically.
+              </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg">
+              <button
+                onclick="toggleFAQ('faq4')"
+                class="w-full text-left p-4 focus:outline-none hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+              >
+                <div class="flex justify-between items-center">
+                  <span class="font-semibold text-gray-900 dark:text-white"
+                    >What does "Low Stock Items" mean on the dashboard?</span
+                  >
+                  <svg
+                    id="faq4-icon"
+                    class="w-5 h-5 text-gray-500 transition-transform duration-200"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+              <div
+                id="faq4"
+                class="hidden p-4 pt-0 text-gray-700 dark:text-gray-300"
+              >
+                Low Stock Items shows items with stock quantity of 10 or fewer
+                units. This helps you identify which items need to be restocked
+                soon to avoid running out of inventory.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Troubleshooting Section -->
+      <div id="troubleshooting" class="help-section mb-8">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700"
+        >
+          <h2
+            class="text-3xl font-bold mb-6 text-gray-900 dark:text-white flex items-center"
+          >
+            🔧 Troubleshooting
+          </h2>
+
+          <div class="space-y-6">
+            <div class="bg-red-50 dark:bg-red-900/20 p-6 rounded-lg">
+              <h3
+                class="text-xl font-semibold mb-4 text-red-900 dark:text-red-100"
+              >
+                Common Issues & Solutions
+              </h3>
+
+              <div class="space-y-4">
+                <div>
+                  <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
+                    🚫 Cannot login to the system
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 ml-4"
+                  >
+                    <li>Check your username and password</li>
+                    <li>Ensure Caps Lock is not enabled</li>
+                    <li>Clear your browser cache and cookies</li>
+                    <li>Contact administrator if issue persists</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
+                    📊 Dashboard not loading correctly
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 ml-4"
+                  >
+                    <li>Refresh the page (F5 or Ctrl+R)</li>
+                    <li>Check your internet connection</li>
+                    <li>Try a different browser</li>
+                    <li>Disable browser extensions temporarily</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
+                    💾 Data not saving
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 ml-4"
+                  >
+                    <li>Ensure all required fields are filled</li>
+                    <li>Check for error messages</li>
+                    <li>Verify your session hasn't expired</li>
+                    <li>Try saving again after a few moments</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h4 class="font-semibold text-gray-900 dark:text-white mb-2">
+                    🎨 Theme/Display issues
+                  </h4>
+                  <ul
+                    class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-1 ml-4"
+                  >
+                    <li>Try toggling between light and dark themes</li>
+                    <li>Clear browser cache</li>
+                    <li>Zoom level should be at 100%</li>
+                    <li>Update your browser to the latest version</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-lg">
+              <h3
+                class="text-xl font-semibold mb-4 text-blue-900 dark:text-blue-100"
+              >
+                Best Practices
+              </h3>
+              <ul
+                class="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2"
+              >
+                <li>Always log out when finished to maintain security</li>
+                <li>Regularly backup important data</li>
+                <li>Keep your browser updated for best performance</li>
+                <li>Use strong, unique passwords</li>
+                <li>Report any suspicious activity immediately</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Section -->
+      <div class="help-section">
+        <div
+          class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg p-8 text-white"
+        >
+          <div class="text-center">
+            <h2 class="text-3xl font-bold mb-4">📞 Need More Help?</h2>
+            <p class="text-xl mb-6 opacity-90">
+              Our support team is here to assist you with any questions or
+              issues.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
+                <div class="text-2xl mb-2">📧</div>
+                <h3 class="font-semibold mb-2">Email Support</h3>
+                <p class="text-sm opacity-80">support@pahanaedu.com</p>
+              </div>
+              <div class="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
+                <div class="text-2xl mb-2">📞</div>
+                <h3 class="font-semibold mb-2">Phone Support</h3>
+                <p class="text-sm opacity-80">+1 (555) 123-4567</p>
+              </div>
+              <div class="bg-white/10 rounded-lg p-6 backdrop-blur-sm">
+                <div class="text-2xl mb-2">💬</div>
+                <h3 class="font-semibold mb-2">Live Chat</h3>
+                <p class="text-sm opacity-80">Available 24/7</p>
+              </div>
+            </div>
+            <div class="mt-6">
+              <p class="text-sm opacity-80">
+                System Version: 1.0 | Last Updated: August 2025
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 dark:bg-gray-900 text-white py-8 mt-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <p class="text-gray-300 dark:text-gray-400">
+          © 2025 Pahana Edu. All rights reserved. Built with Spring Boot &
+          Thymeleaf.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

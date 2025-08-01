@@ -1,8 +1,8 @@
 package com.springboot.project.dto;
 
-import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class BillCreateRequest {

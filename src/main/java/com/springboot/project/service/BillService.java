@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +19,15 @@ public class BillService {
     private final BillRepository billRepository;
     
     public Bill saveBill(Bill bill) {
+        // Auto-generate bill number if not provided
+        if (bill.getBillNumber() == null || bill.getBillNumber().isEmpty()) {
+            bill.setBillNumber(generateBillNumber());
+        }
         return billRepository.save(bill);
+    }
+    
+    public Page<Bill> findAllBills(Pageable pageable) {
+        return billRepository.findAll(pageable);
     }
     
     public List<Bill> findAllBills() {
@@ -160,5 +170,11 @@ public class BillService {
     
     public boolean billExists(Long id) {
         return billRepository.existsById(id);
+    }
+    
+    private String generateBillNumber() {
+        String prefix = "BILL-";
+        long count = billRepository.count() + 1;
+        return prefix + String.format("%06d", count);
     }
 }

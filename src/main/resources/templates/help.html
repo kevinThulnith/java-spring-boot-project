@@ -2,53 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org" class="h-full" lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Help - System Usage Guidelines</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <title>Pahana Edu - Help</title>
+
+    <!-- Web site icon -->
+    <meta name="msapplication-TileColor" content="#ffffff" />
+    <link rel="icon" th:href="@{/images/logo.png}" type="image/png" />
+    <meta name="msapplication-TileImage" th:content="@{/images/logo.png}" />
+    <link rel="shortcut icon" th:href="@{/images/logo.png}" type="image/png" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script th:src="@{/js/tailwind.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
+
     <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: {
-              poppins: ["Poppins", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
-    <script>
-      // Theme toggle functionality
-      function toggleTheme() {
-        const html = document.documentElement;
-        const isDark = html.classList.contains("dark");
-
-        if (isDark) {
-          html.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-        } else {
-          html.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-        }
-      }
-
-      // Initialize theme on page load
-      (function () {
-        const savedTheme = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-
-        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-          document.documentElement.classList.add("dark");
-        }
-      })();
-
       // Toggle FAQ sections
       function toggleFAQ(id) {
         const element = document.getElementById(id);
